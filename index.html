@@ -487,6 +487,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       <a href="#projects" class="nav__link">ผลงาน</a>
       <a href="#timeline" class="nav__link">เส้นทาง</a>
       <a href="#certs" class="nav__link">ใบประกาศ</a>
+      <a href="#showcase" class="nav__link">ภาพรวมผลงาน</a>
       <a href="#contact" class="nav__link">ติดต่อ</a>
     </nav>
 
@@ -609,6 +610,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <a href="https://github.com/thitivudb-lang/Motor-Health-Monitoring-System" class="project-card__link" target="_blank" rel="noopener">⌥ GitHub</a>
       </article>
 
+      <article class="project-card" data-category="web">
+        <h3>im-kitchen (Food Ordering Web App)</h3>
+        <p class="project-card__subtitle">2568 – ปัจจุบัน</p>
+        <p class="project-card__desc">
+          พัฒนาเว็บสั่งอาหารออนไลน์แบบ Single-page ด้วย HTML/CSS/JavaScript ล้วน ไม่พึ่ง framework
+          มีระบบตะกร้าสินค้าแบบ real-time เพิ่ม/ลดจำนวนและคำนวณยอดรวมอัตโนมัติ รองรับเมนู 66 รายการใน 3 หมวด
+          พร้อมระบบค้นหาและกรองหมวดแบบ live filter ระบบโค้ดส่วนลด 3 แบบ (ลด %, ลดเป็นบาท, ส่งฟรี) พร้อมเงื่อนไขยอดขั้นต่ำ
+          คำนวณค่าจัดส่งและแถบ progress ส่งฟรี ออกแบบ UI ด้วยการ์ดไล่สี animation แบบ spring และ toast แจ้งเตือน
+        </p>
+        <div class="tag-row">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Responsive UI</span><span class="tag">LocalStorage</span>
+        </div>
+        <a href="#" class="project-card__link" target="_blank" rel="noopener">⌥ GitHub (ใส่ลิงก์)</a>
+      </article>
+
       <!-- TODO: เพิ่มโปรเจกต์อื่นที่คุณเคยทำจริง เพิ่มการ์ดในรูปแบบเดียวกับด้านบน -->
     </div>
   </section>
@@ -676,9 +692,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     </div>
   </section>
 
+  <!-- ===== SHOWCASE ===== -->
+  <section id="showcase" class="section">
+    <p class="eyebrow"><span class="eyebrow__num">05</span> — PROJECT SHOWCASE</p>
+    <h2 class="section__title">ภาพรวมผลงาน</h2>
+
+    <div class="showcase-grid">
+      <article class="showcase-card">
+        <div class="showcase-card__preview showcase-card__preview--dark">MOTOR HEALTH MONITORING</div>
+        <h3>Motor Health Monitoring System</h3>
+        <p>ระบบ IoT monitor และควบคุมมอเตอร์แบบ real-time ด้วย Raspberry Pi, ESP32 และ Firebase</p>
+      </article>
+      <article class="showcase-card">
+        <div class="showcase-card__preview showcase-card__preview--light">IM-KITCHEN</div>
+        <h3>im-kitchen (Food Ordering Web App)</h3>
+        <p>เว็บสั่งอาหารออนไลน์ Single-page ด้วย HTML/CSS/JS ล้วน มีตะกร้าสินค้า ระบบส่วนลด และ live filter</p>
+      </article>
+    </div>
+
+    <!-- TODO: ถ้ามีรูป screenshot จริงของแต่ละโปรเจกต์ ส่งมาได้ จะใส่แทนกล่องข้อความนี้ -->
+  </section>
+
   <!-- ===== CONTACT ===== -->
   <section id="contact" class="section">
-    <p class="eyebrow"><span class="eyebrow__num">05</span> — CONTACT</p>
+    <p class="eyebrow"><span class="eyebrow__num">06</span> — CONTACT</p>
     <h2 class="section__title">ติดต่อ</h2>
 
     <div class="contact-cta">
