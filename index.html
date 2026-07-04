@@ -367,6 +367,18 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .showcase-card h3 { margin: 18px 20px 6px; font-size: 1rem; }
 .showcase-card p { margin: 0 20px 20px; color: var(--text-soft); font-size: .85rem; }
 
+.showcase-card__gallery { position: relative; }
+.showcase-card__slide { display: none; }
+.showcase-card__slide.active { display: grid; }
+.showcase-card__slide img { width: 100%; height: 160px; object-fit: cover; }
+.showcase-card__dots { display: flex; justify-content: center; gap: 6px; padding: 10px 0; background: var(--surface); }
+.showcase-card__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border);
+  border: none; cursor: pointer; padding: 0;
+}
+.showcase-card__dot.active { background: var(--accent); }
+
 /* ============ ACTIVITIES / CONTACT ============ */
 .activity-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-bottom: 56px; }
 .activity-card {
@@ -572,9 +584,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
       <article class="skill-card">
         <div class="skill-card__icon">🗄</div>
         <h3>Programming &amp; Systems</h3>
-        <p>เขียนโปรแกรมควบคุมด้วย Python และบริหารจัดการระบบผ่าน Linux Command Line</p>
+        <p>เขียนโปรแกรมควบคุมด้วย Python พัฒนาเว็บด้วย HTML, CSS, JavaScript และบริหารจัดการระบบผ่าน Linux Command Line</p>
         <div class="tag-row">
-          <span class="tag">Python</span><span class="tag">Linux Command Line</span>
+          <span class="tag">Python</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Linux Command Line</span>
         </div>
       </article>
 
@@ -699,18 +711,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
     <div class="showcase-grid">
       <article class="showcase-card">
-        <div class="showcase-card__preview showcase-card__preview--dark">MOTOR HEALTH MONITORING</div>
+        <div class="showcase-card__gallery" data-gallery>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark active">MOTOR HEALTH MONITORING #1</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark">MOTOR HEALTH MONITORING #2</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark">MOTOR HEALTH MONITORING #3</div>
+          <div class="showcase-card__dots">
+            <button class="showcase-card__dot active" data-slide="0" aria-label="ภาพ 1"></button>
+            <button class="showcase-card__dot" data-slide="1" aria-label="ภาพ 2"></button>
+            <button class="showcase-card__dot" data-slide="2" aria-label="ภาพ 3"></button>
+          </div>
+        </div>
         <h3>Motor Health Monitoring System</h3>
         <p>ระบบ IoT monitor และควบคุมมอเตอร์แบบ real-time ด้วย Raspberry Pi, ESP32 และ Firebase</p>
       </article>
       <article class="showcase-card">
-        <div class="showcase-card__preview showcase-card__preview--light">IM-KITCHEN</div>
+        <div class="showcase-card__gallery" data-gallery>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--light active">IM-KITCHEN #1</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--light">IM-KITCHEN #2</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--light">IM-KITCHEN #3</div>
+          <div class="showcase-card__dots">
+            <button class="showcase-card__dot active" data-slide="0" aria-label="ภาพ 1"></button>
+            <button class="showcase-card__dot" data-slide="1" aria-label="ภาพ 2"></button>
+            <button class="showcase-card__dot" data-slide="2" aria-label="ภาพ 3"></button>
+          </div>
+        </div>
         <h3>im-kitchen (Food Ordering Web App)</h3>
         <p>เว็บสั่งอาหารออนไลน์ Single-page ด้วย HTML/CSS/JS ล้วน มีตะกร้าสินค้า ระบบส่วนลด และ live filter</p>
       </article>
     </div>
 
-    <!-- TODO: ถ้ามีรูป screenshot จริงของแต่ละโปรเจกต์ ส่งมาได้ จะใส่แทนกล่องข้อความนี้ -->
+    <!-- TODO: ตอนนี้แต่ละการ์ดมี 3 ช่องเป็น placeholder (ยังไม่ใช่รูปจริง) — ส่ง screenshot จริงของแต่ละโปรเจกต์มาได้ 3 รูป/โปรเจกต์ จะใส่แทนที่ช่อง <div class="showcase-card__slide"> ด้วย <img> ให้ -->
   </section>
 
   <!-- ===== CONTACT ===== -->
@@ -814,6 +844,19 @@ typeLoop();
 // (ตัด filter ออกแล้ว เนื่องจากตอนนี้มีโปรเจกต์เดียว — ถ้าเพิ่มโปรเจกต์หลายหมวดค่อยเพิ่มกลับ)
 
 // (ตัดอนิเมชัน progress bar ออกแล้ว เนื่องจากไม่มีข้อมูล % ทักษะที่ยืนยันได้จริง)
+
+// ============ SHOWCASE GALLERY DOTS ============
+document.querySelectorAll('[data-gallery]').forEach(gallery => {
+  const slides = gallery.querySelectorAll('.showcase-card__slide');
+  const dots = gallery.querySelectorAll('.showcase-card__dot');
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const i = Number(dot.dataset.slide);
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    });
+  });
+});
 
 // ============ SCROLL TO TOP BUTTON ============
 const scrollTopBtn = document.getElementById('scrollTop');
