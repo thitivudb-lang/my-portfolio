@@ -637,6 +637,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <a href="https://github.com/thitivudb-lang/im-kitchen" class="project-card__link" target="_blank" rel="noopener">⌥ GitHub</a>
       </article>
 
+      <article class="project-card" data-category="game">
+        <h3>เกมจับคู่ไทล์ (Tile Match Game)</h3>
+        <p class="project-card__subtitle"></p>
+        <p class="project-card__desc">
+          พัฒนาเกมจับคู่ไทล์แบบ Single-page ด้วย HTML/CSS/JavaScript ล้วน มีระบบไทล์ซ้อนหลายชั้นที่ตรวจการบังแบบเรขาคณิต
+          ไทล์ที่ถูกทับจะกดไม่ได้จนกว่าจะเก็บใบบนออก รองรับระบบด่านที่เพิ่มความยากอัตโนมัติ (จำนวนคู่ ชนิดไทล์ และชั้นซ้อนเพิ่มตามด่าน)
+          พร้อมถาดพัก 7 ช่องที่จับคู่ไทล์เหมือนกัน 2 ใบให้หายทันที มีระบบตรวจแพ้เมื่อถาดเต็มและตรวจภาวะตัน (deadlock)
+          ออกแบบ UI สไตล์เกมมือถือด้วยไทล์ 3D เงานุ่ม หน้าเริ่มเกมพร้อมไทล์ประดับลอยเคลื่อนไหว animation แบบ bob/pulse และระบบเหรียญสะสม
+        </p>
+        <div class="tag-row">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Game Logic</span><span class="tag">Responsive UI</span>
+        </div>
+        <a href="#" class="project-card__link" target="_blank" rel="noopener">⌥ GitHub (ใส่ลิงก์)</a>
+      </article>
+
       <!-- TODO: เพิ่มโปรเจกต์อื่นที่คุณเคยทำจริง เพิ่มการ์ดในรูปแบบเดียวกับด้านบน -->
     </div>
   </section>
@@ -738,8 +753,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         <h3>im-kitchen (Food Ordering Web App)</h3>
         <p>เว็บสั่งอาหารออนไลน์ Single-page ด้วย HTML/CSS/JS ล้วน มีตะกร้าสินค้า ระบบส่วนลด และ live filter</p>
       </article>
+      <article class="showcase-card">
+        <div class="showcase-card__gallery" data-gallery>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark active">TILE MATCH #1</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark">TILE MATCH #2</div>
+          <div class="showcase-card__slide showcase-card__preview showcase-card__preview--dark">TILE MATCH #3</div>
+          <div class="showcase-card__dots">
+            <button class="showcase-card__dot active" data-slide="0" aria-label="ภาพ 1"></button>
+            <button class="showcase-card__dot" data-slide="1" aria-label="ภาพ 2"></button>
+            <button class="showcase-card__dot" data-slide="2" aria-label="ภาพ 3"></button>
+          </div>
+        </div>
+        <h3>เกมจับคู่ไทล์ (Tile Match Game)</h3>
+        <p>เกมจับคู่ไทล์ Single-page ด้วย HTML/CSS/JS มีระบบด่าน, ถาดพัก 7 ช่อง และตรวจภาวะตัน (deadlock)</p>
+      </article>
     </div>
 
+    <!-- TODO: การ์ด Tile Match ยังเป็น placeholder ข้อความ (ไม่มี screenshot จริง) — ส่งรูปมาได้ 3 รูป จะใส่แทนให้ -->
   </section>
 
   <!-- ===== CONTACT ===== -->
