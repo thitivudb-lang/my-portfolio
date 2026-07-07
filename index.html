@@ -599,6 +599,34 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
         </div>
       </article>
     </div>
+
+    <p style="font-size:.8rem;color:var(--text-soft);margin-bottom:16px;">* ตัวเลขด้านล่างเป็นการประเมินคร่าวๆ จากผลงานในพอร์ตนี้เท่านั้น ไม่ใช่คะแนนวัดผลจากที่ใดที่หนึ่ง ปรับตัวเลขเองได้ตามที่คุณประเมินจริง</p>
+    <div class="progress-grid">
+      <div class="progress-item">
+        <div class="progress-item__label"><span>HTML</span><span>85%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:85%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-item__label"><span>CSS</span><span>80%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:80%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-item__label"><span>JavaScript</span><span>80%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:80%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-item__label"><span>Python</span><span>75%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:75%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-item__label"><span>Embedded (ESP32 / Raspberry Pi / C++)</span><span>70%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:70%"></div></div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-item__label"><span>Firebase / Cloud IoT</span><span>65%</span></div>
+        <div class="progress-bar"><div class="progress-bar__fill" style="--value:65%"></div></div>
+      </div>
+    </div>
   </section>
 
   <!-- ===== PROJECTS ===== -->
@@ -872,6 +900,18 @@ typeLoop();
 // (ตัด filter ออกแล้ว เนื่องจากตอนนี้มีโปรเจกต์เดียว — ถ้าเพิ่มโปรเจกต์หลายหมวดค่อยเพิ่มกลับ)
 
 // (ตัดอนิเมชัน progress bar ออกแล้ว เนื่องจากไม่มีข้อมูล % ทักษะที่ยืนยันได้จริง)
+
+// ============ PROGRESS BAR ANIMATION ON SCROLL ============
+const progressFills = document.querySelectorAll('.progress-bar__fill');
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      progressObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+progressFills.forEach(fill => progressObserver.observe(fill));
 
 // ============ SHOWCASE GALLERY DOTS ============
 document.querySelectorAll('[data-gallery]').forEach(gallery => {
