@@ -1,17 +1,5 @@
-// ============ THEME TOGGLE ============
-const themeToggle = document.getElementById('themeToggle');
-const root = document.documentElement;
-
-function applyTheme(theme) {
-  root.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-}
-applyTheme(localStorage.getItem('theme') || 'light');
-
-themeToggle.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme');
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-});
+// ============ NIGHT MODE ONLY ============
+document.documentElement.setAttribute('data-theme', 'dark');
 
 // ============ MOBILE NAV ============
 const navBurger = document.getElementById('navBurger');
