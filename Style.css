@@ -474,34 +474,3 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-
-/* ============ PIXEL SCENE BACKGROUND ============ */
-#pixelScene {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  z-index: -2;
-  display: block;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
-}
-/* ม่านบางๆ ทับท้องฟ้าให้อ่านตัวหนังสือง่าย ปรับความทึบได้ที่ --scene-veil (0%–100%) */
-.scene-veil {
-  --scene-veil: 60%;
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(to bottom,
-    color-mix(in srgb, var(--bg) var(--scene-veil), transparent) 0%,
-    color-mix(in srgb, var(--bg) var(--scene-veil), transparent) 62%,
-    transparent 80%);
-}
-.footer p {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-}
