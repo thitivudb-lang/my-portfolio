@@ -6,7 +6,7 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const root = document.documentElement;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduceMotion = false;
 
   // ---------- palettes ----------
   const PAL = {
