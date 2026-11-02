@@ -7,8 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="Style.css">
+<link rel="stylesheet" href="Scene.css">
 </head>
 <body>
+
+<!-- ===== PIXEL SCENE BACKGROUND ===== -->
+<canvas id="sceneCanvas" class="scene-canvas" aria-hidden="true"></canvas>
 
 <!-- ===== NAVBAR ===== -->
 <header class="navbar">
@@ -29,6 +33,9 @@
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีมมืด/สว่าง">
         <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="scene-toggle" id="sceneToggle" aria-label="ดูฉากพื้นหลังเต็มจอ (กด Esc เพื่อกลับ)" aria-pressed="false" title="ดูฉากเต็มจอ">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
       <button class="nav__burger" id="navBurger" aria-label="เมนู">
         <span></span><span></span><span></span>
@@ -347,5 +354,6 @@
 <button class="scroll-top" id="scrollTop" aria-label="กลับขึ้นด้านบน">↑</button>
 
 <script src="Script.js"></script>
+<script src="Scene.js"></script>
 </body>
 </html>
