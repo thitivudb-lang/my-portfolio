@@ -1,49 +1,20 @@
-// ============ PIXEL SCENE BACKGROUND ============
-// กลางวัน: ตัวละครเดินไปมาบนทุ่งหญ้า | กลางคืน: ตั้งแคมป์ ก่อไฟ นอนหลับ
-// ผูกกับ data-theme ของ <html> (ปุ่มสลับธีมเดิม)
+// ============ PIXEL SCENE BACKGROUND (NIGHT ONLY) ============
+// ตั้งแคมป์ ก่อไฟ นอนหลับ ใต้ท้องฟ้ากลางคืน
 (() => {
   const canvas = document.getElementById('sceneCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const root = document.documentElement;
-  const reduceMotion = false;
 
-  // ---------- palettes ----------
-  const PAL = {
-    day: {
-      sky: ['#2f86d9', '#3b93e0', '#58a6e8'],
-      grass: '#5e9b52', edge: '#4b8a44', tuft: '#8fcf83',
-      cloud: '#ffffff', cloudShade: '#c6dcf2', cloudAlpha: 1
-    },
-    night: {
-      sky: ['#0a1030', '#101a40', '#1b2a5a'],
-      grass: '#2a4a35', edge: '#1d3727', tuft: '#41704e',
-      cloud: '#3b4b86', cloudShade: '#2c3a6c', cloudAlpha: 0.55
-    }
+  // ---------- palette ----------
+  const P = {
+    sky: ['#0a1030', '#101a40', '#1b2a5a'],
+    grass: '#2a4a35', edge: '#1d3727', tuft: '#41704e',
+    cloud: '#3b4b86', cloudShade: '#2c3a6c', cloudAlpha: 0.55
   };
 
-  const COL = {
-    h: '#3b2a1a', s: '#f2c29b', e: '#1a1a1a', t: '#c1662e',
-    p: '#34507f', b: '#2a2118', c: '#4a6fa5', r: '#7a4b2a', w: '#e8e0d0'
-  };
+  const COL = { h: '#3b2a1a', s: '#f2c29b', c: '#4a6fa5', r: '#7a4b2a', w: '#e8e0d0' };
 
-  // ---------- sprites (หันขวา) ----------
-  const BODY = [
-    '..hhhhh..',
-    '.hhhhhhh.',
-    '.hsssssh.',
-    '.hsssses.',
-    '..sssss..',
-    '..ttttt..',
-    '.sttttts.',
-    '.sttttts.',
-    '..ttttt..',
-    '..ppppp..'
-  ];
-  const LEGS = [
-    ['..pp.pp..', '..bb.bb..'],
-    ['.pp...pp.', '.bb...bb.']
-  ];
+  // ---------- sprites ----------
   const SLEEP = [
     '.hhhh...........',
     'hhssscccccccccccc'.slice(0, 16),
@@ -62,9 +33,6 @@
   // ---------- state ----------
   let S, W, H, horizon, feetY;
   let clouds = [], stars = [], tufts = [];
-  let mix = root.getAttribute('data-theme') === 'dark' ? 1 : 0; // 0 = day, 1 = night
-  let target = mix;
-  const walker = { x: 40, dir: 1, state: 'walk', timer: 3 };
   let sparks = [];
   let last = performance.now();
   let t = 0;
@@ -103,10 +71,8 @@
     tufts = Array.from({ length: Math.round((W * (H - horizon)) / 90) }, () => ({
       x: Math.floor(rng() * W),
       y: horizon + 3 + Math.floor(rng() * Math.max(1, H - horizon - 3)),
-      w: 1 + Math.floor(rng() * 2),
-      flower: rng() > 0.93 ? (rng() > 0.5 ? '#f4a6c0' : '#ffe066') : null
+      w: 1 + Math.floor(rng() * 2)
     }));
-    walker.x = Math.min(Math.max(walker.x, 10), W - 20);
     draw();
   }
 
@@ -129,90 +95,62 @@
     }
   }
 
-  function sprite(rows, x, y, flip) {
+  function sprite(rows, x, y) {
     x = Math.floor(x); y = Math.floor(y);
-    const w = rows[0].length;
     for (let r = 0; r < rows.length; r++) {
       for (let c = 0; c < rows[r].length; c++) {
         const ch = rows[r][c];
         if (ch === '.') continue;
         ctx.fillStyle = COL[ch];
-        ctx.fillRect(flip ? x + (w - 1 - c) : x + c, y + r, 1, 1);
+        ctx.fillRect(x + c, y + r, 1, 1);
       }
     }
   }
 
   // ---------- world ----------
-  function drawWorld(p, isNight) {
+  function drawWorld() {
     const bands = [0, horizon * 0.45, horizon * 0.8, horizon];
     for (let i = 0; i < 3; i++) {
-      rect(0, Math.floor(bands[i]), W, Math.ceil(bands[i + 1] - bands[i]) + 1, p.sky[i]);
+      rect(0, Math.floor(bands[i]), W, Math.ceil(bands[i + 1] - bands[i]) + 1, P.sky[i]);
     }
 
-    if (isNight) {
-      stars.forEach(s => {
-        const a = 0.45 + 0.55 * Math.sin(t * 2 + s.phase);
-        ctx.globalAlpha = Math.max(0.1, a);
-        rect(s.x, s.y, 1, 1, '#ffffff');
-        if (s.big) {
-          rect(s.x - 1, s.y, 3, 1, '#fff6c8');
-          rect(s.x, s.y - 1, 1, 3, '#fff6c8');
-        }
-      });
-      ctx.globalAlpha = 1;
-      const mx = Math.floor(W * 0.84), my = 16;
-      disc(mx, my, 6, '#f4f1d0');
-      disc(mx + 3, my - 2, 5, p.sky[0]);
-    } else {
-      const sx = Math.floor(W * 0.84), sy = 16;
-      disc(sx, sy, 8, '#ffe9a0');
-      disc(sx, sy, 6, '#ffd84a');
-    }
+    stars.forEach(s => {
+      const a = 0.45 + 0.55 * Math.sin(t * 2 + s.phase);
+      ctx.globalAlpha = Math.max(0.1, a);
+      rect(s.x, s.y, 1, 1, '#ffffff');
+      if (s.big) {
+        rect(s.x - 1, s.y, 3, 1, '#fff6c8');
+        rect(s.x, s.y - 1, 1, 3, '#fff6c8');
+      }
+    });
+    ctx.globalAlpha = 1;
+
+    // moon
+    const mx = Math.floor(W * 0.84), my = 16;
+    disc(mx, my, 6, '#f4f1d0');
+    disc(mx + 3, my - 2, 5, P.sky[0]);
 
     // clouds
-    ctx.globalAlpha = p.cloudAlpha;
+    ctx.globalAlpha = P.cloudAlpha;
     clouds.forEach(c => {
       const shape = CLOUDS[c.shape];
       shape.forEach(([dx, dy, w, h], i) => {
-        rect(c.x + dx, c.y + dy, w, h, p.cloud);
-        if (i === shape.length - 1) rect(c.x + dx, c.y + dy + h - 1, w, 1, p.cloudShade);
+        rect(c.x + dx, c.y + dy, w, h, P.cloud);
+        if (i === shape.length - 1) rect(c.x + dx, c.y + dy + h - 1, w, 1, P.cloudShade);
       });
     });
     ctx.globalAlpha = 1;
 
     // ground
-    rect(0, horizon, W, H - horizon, p.grass);
-    rect(0, horizon, W, 1, p.edge);
-    tufts.forEach(f => {
-      rect(f.x, f.y, f.w, 1, p.tuft);
-      if (f.flower && !isNight) {
-        rect(f.x, f.y - 2, 1, 1, f.flower);
-        rect(f.x, f.y - 1, 1, 1, '#4b8a44');
-      }
-    });
+    rect(0, horizon, W, H - horizon, P.grass);
+    rect(0, horizon, W, 1, P.edge);
+    tufts.forEach(f => rect(f.x, f.y, f.w, 1, P.tuft));
   }
 
-  // ---------- actors ----------
-  function drawWalker(alpha) {
-    if (alpha <= 0.01) return;
-    ctx.globalAlpha = alpha * 0.18;
-    rect(walker.x, feetY, 9, 1, '#000');
-    ctx.globalAlpha = alpha;
-    const walking = walker.state === 'walk';
-    const frame = walking ? Math.floor(t * 4.5) % 2 : 0;
-    const bob = walking && frame === 0 ? -1 : 0;
-    const flip = walker.dir < 0;
-    const y = feetY - 12 + bob;
-    sprite(BODY, walker.x, y, flip);
-    sprite(LEGS[frame], walker.x, y + 10, flip);
-    ctx.globalAlpha = 1;
-  }
-
-  function drawCamp(alpha) {
-    if (alpha <= 0.01) return;
+  // ---------- camp ----------
+  function drawCamp() {
     const cx = Math.floor(W * 0.5);
     const base = feetY - 2;
-    ctx.globalAlpha = alpha;
 
     // tent
     const tx = cx - 36, apex = feetY - 14;
@@ -247,27 +185,26 @@
       if (Math.abs(dx) <= 2 && h - 2 > 0) rect(cx + dx, base - (h - 2), 1, h - 2, '#f7a23a');
       if (Math.abs(dx) <= 1 && h - 5 > 0) rect(cx + dx, base - (h - 5), 1, h - 5, '#ffe58a');
     }
-    ctx.globalAlpha = 1;
 
     // sparks
     sparks.forEach(s => {
-      ctx.globalAlpha = Math.max(0, s.life) * alpha;
+      ctx.globalAlpha = Math.max(0, s.life);
       rect(s.x, s.y, 1, 1, '#ffd27a');
     });
     ctx.globalAlpha = 1;
 
     // sleeping character
     const sx = cx + 14, sy = feetY - 4;
-    ctx.globalAlpha = alpha * 0.18;
+    ctx.globalAlpha = 0.18;
     rect(sx, feetY, 16, 1, '#000');
-    ctx.globalAlpha = alpha;
-    sprite(SLEEP, sx, sy, false);
+    ctx.globalAlpha = 1;
+    sprite(SLEEP, sx, sy);
 
     // floating Z
     for (let i = 0; i < 3; i++) {
       const ph = (t * 0.45 + i / 3) % 1;
       const k = 1 + (i % 2);
-      ctx.globalAlpha = alpha * (1 - ph);
+      ctx.globalAlpha = 1 - ph;
       const zx = sx + 2 + ph * 12 + i * 2, zy = sy - 4 - ph * 16;
       Z_GLYPH.forEach((row, r) => {
         for (let c = 0; c < row.length; c++) {
@@ -280,44 +217,20 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    drawWorld(PAL.day, false);
-    if (mix > 0.01) {
-      ctx.globalAlpha = mix;
-      drawWorld(PAL.night, true);
-      ctx.globalAlpha = 1;
-    }
-    drawWalker(1 - mix);
-    drawCamp(mix);
+    drawWorld();
+    drawCamp();
   }
 
   // ---------- update ----------
   function update(dt) {
     t += dt;
-    mix += Math.sign(target - mix) * Math.min(Math.abs(target - mix), dt / 0.9);
 
     clouds.forEach(c => {
       c.x += c.speed * dt;
       if (c.x > W + 10) c.x = -30;
     });
 
-    // walker
-    walker.timer -= dt;
-    if (walker.state === 'walk') {
-      walker.x += walker.dir * 18 * dt;
-      if (walker.x < 8) { walker.x = 8; walker.dir = 1; }
-      if (walker.x > W - 18) { walker.x = W - 18; walker.dir = -1; }
-      if (walker.timer <= 0) {
-        walker.state = 'idle';
-        walker.timer = 1 + Math.random() * 1.5;
-      }
-    } else if (walker.timer <= 0) {
-      walker.state = 'walk';
-      walker.timer = 2.5 + Math.random() * 4;
-      if (Math.random() > 0.5) walker.dir *= -1;
-    }
-
-    // sparks
-    if (mix > 0.3 && Math.random() < dt * 7) {
+    if (Math.random() < dt * 7) {
       sparks.push({
         x: Math.floor(W * 0.5) + (Math.random() * 4 - 2),
         y: feetY - 14,
@@ -341,16 +254,9 @@
     requestAnimationFrame(loop);
   }
 
-  // ---------- theme sync ----------
-  function syncTheme() {
-    target = root.getAttribute('data-theme') === 'dark' ? 1 : 0;
-    if (reduceMotion) { mix = target; draw(); }
-  }
-  new MutationObserver(syncTheme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-
   window.addEventListener('resize', resize);
   resize();
-  if (reduceMotion) { draw(); } else { requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
 
   // ---------- ปุ่ม "ดูฉากเต็มจอ" ----------
   const sceneBtn = document.getElementById('sceneToggle');
